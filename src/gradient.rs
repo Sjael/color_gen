@@ -18,13 +18,13 @@ pub struct GradientOptions {
     stops: Vec<f32>,
 }
 
-pub fn generate(
-    GradientOptions {
+pub fn generate(options: &GradientOptions) -> Result<(), ColorGenerationError> {
+    let GradientOptions{
         colors,
         num_steps,
         stops,
-    }: &GradientOptions,
-) -> Result<(), ColorGenerationError> {
+    } = options;
+    
     if colors.len() > 0 {
         if colors.len() != stops.len() {
             let color_str = format!("{:?}", colors);

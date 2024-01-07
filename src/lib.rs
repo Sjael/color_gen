@@ -3,24 +3,25 @@ use miette::Diagnostic;
 use thiserror::Error;
 
 pub mod gradient;
+pub mod random;
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
 #[command(propagate_version = true)]
 pub struct Cli {
     #[command(subcommand)]
-    pub command: Commands,
+    pub command: Subcommands,
 }
 
 #[derive(Subcommand)]
-pub enum Commands {
+pub enum Subcommands {
     /// Generate a gradient
     ///
     /// Optionally provide color stops to control
     /// the gradient's generation
     Gradient(gradient::GradientOptions),
     /// Generate a random color
-    Random,
+    Random(random::RandomOptions),
 }
 
 #[derive(Error, Diagnostic, Debug)]
