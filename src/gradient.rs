@@ -19,31 +19,32 @@ pub struct GradientOptions {
 }
 
 pub fn generate(options: &GradientOptions) -> Result<(), ColorGenerationError> {
-    let GradientOptions{
+    let GradientOptions {
         colors,
         num_steps,
         stops,
     } = options;
-    
+
     if colors.len() > 0 {
         if colors.len() != stops.len() {
             let color_str = format!("{:?}", colors);
             let stops_str = format!("{:?}", stops);
-            return Err(
-                ColorGenerationError::ColorsAndStepsMustMatch {
-                    input: format!("{}\n{}\n{}", &color_str, num_steps, stops_str),
-                    advice: format!("match number of colors: `{}` with number of stops: `{}`", colors.len(), stops.len()),
-                    color_src: (0,color_str.len()),
-                    stops_src: (color_str.len()+4, stops_str.len()),
-                });
+            return Err(ColorGenerationError::ColorsAndStepsMustMatch {
+                input: format!("{}\n{}\n{}", &color_str, num_steps, stops_str),
+                advice: format!(
+                    "match number of colors: `{}` with number of stops: `{}`",
+                    colors.len(),
+                    stops.len()
+                ),
+                color_src: (0, color_str.len()),
+                stops_src: (color_str.len() + 4, stops_str.len()),
+            });
         }
         let color_list = zip(stops, colors)
             .map(|(&stop, color)| {
                 (
                     stop,
-                    LinSrgb::from_str(color)
-                        .expect("hex code")
-                        .into_format(),
+                    LinSrgb::from_str(color).expect("hex code").into_format(),
                 )
             })
             .collect::<Vec<(f32, LinSrgb)>>();

@@ -1,6 +1,6 @@
 use clap::{arg, Args};
-use rand::Rng;
 use owo_colors::OwoColorize;
+use rand::Rng;
 
 use crate::ColorGenerationError;
 
@@ -12,22 +12,14 @@ pub struct RandomOptions {
     gray: bool,
 }
 
-pub fn generate(options: &RandomOptions) -> Result<(), ColorGenerationError>{
+pub fn generate(options: &RandomOptions) -> Result<(), ColorGenerationError> {
+    let RandomOptions { maxed, gray } = options;
 
-    let RandomOptions{
-        maxed,
-        gray
-    } = options;
-    
     let mut rng = rand::thread_rng();
 
     let mut color = if *gray {
         let scale = rng.gen_range(0..255);
-        owo_colors::Rgb(
-            scale,
-            scale,
-            scale,
-        )
+        owo_colors::Rgb(scale, scale, scale)
     } else {
         owo_colors::Rgb(
             rng.gen_range(0..255),
@@ -36,7 +28,7 @@ pub fn generate(options: &RandomOptions) -> Result<(), ColorGenerationError>{
         )
     };
 
-    if let Some(maxed) = maxed{
+    if let Some(maxed) = maxed {
         if maxed.contains("r") { color.0 = 255 }
         if maxed.contains("g") { color.1 = 255 }
         if maxed.contains("b") { color.2 = 255 }

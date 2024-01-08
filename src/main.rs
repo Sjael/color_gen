@@ -1,5 +1,5 @@
 use clap::Parser;
-use gen_color::{gradient, Cli, Subcommands, random};
+use gen_color::{gradient, random, Cli, Subcommands};
 use miette::{Context, Result};
 
 fn main() -> Result<()> {
@@ -7,12 +7,10 @@ fn main() -> Result<()> {
 
     match &cli.command {
         Subcommands::Gradient(options) => {
-            gradient::generate(options)
-                .wrap_err("when generating gradient")
+            gradient::generate(options).wrap_err("when generating gradient")
         }
         Subcommands::Random(options) => {
-            random::generate(options)
-                .wrap_err("when generating random")
+            random::generate(options).wrap_err("when generating random")
         }
     }
 }

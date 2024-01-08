@@ -30,12 +30,8 @@ pub enum ColorGenerationError {
     #[diagnostic(code(gen_color::io_error))]
     IoError(#[from] std::io::Error),
 
-    #[error(
-        "number of colors and number of steps must match"
-    )]
-    #[diagnostic(code(
-        gen_color::colors_and_steps_mismatch
-    ))]
+    #[error("number of colors and number of steps must match")]
+    #[diagnostic(code(gen_color::colors_and_steps_mismatch))]
     ColorsAndStepsMustMatch {
         #[source_code]
         input: String,
